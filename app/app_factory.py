@@ -1,5 +1,7 @@
 from flask import Flask
 
+from app.blueprints.auth_bp import auth
+from app.blueprints.data_bp import data
 from app.extensions import db
 
 
@@ -9,5 +11,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
+    app.register_blueprint(auth)
+    app.register_blueprint(data)
 
     return app
