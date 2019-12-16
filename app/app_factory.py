@@ -4,6 +4,7 @@ from flask import Flask
 
 from app.blueprints.auth_bp import auth
 from app.blueprints.data_bp import data
+from app.blueprints.frontend_view import front
 from app.extensions import blacklist, db, jwt
 
 
@@ -20,6 +21,7 @@ def create_app():
     jwt.init_app(app)
     app.register_blueprint(auth)
     app.register_blueprint(data)
+    app.register_blueprint(front)
 
     return app
 
