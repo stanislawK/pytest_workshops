@@ -66,7 +66,7 @@ def test_valiadate_correct_data(new_data):
     new_data.pop("user_id")
     data_schema = DataSchema().load(new_data)
 
-    # Check if schama was loaded correct
+    # Check if schama was loaded correctly
     for key, value in data_schema.items():
         assert new_data.get(key) == value
 

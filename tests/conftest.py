@@ -31,6 +31,11 @@ def app():
 
 
 @pytest.fixture
+def client(app):
+    return app.test_client()
+
+
+@pytest.fixture
 def _db(app):
     with app.app_context():
         yield db
