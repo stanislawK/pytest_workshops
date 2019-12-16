@@ -56,3 +56,8 @@ def new_data():
         "unit": "PLN",
         "user_id": 1
     }
+
+
+@pytest.fixture
+def registered_user(_db, client, new_user):
+    client.post("/auth/register/", json=new_user)

@@ -4,7 +4,7 @@ from flask import Flask
 
 from app.blueprints.auth_bp import auth
 from app.blueprints.data_bp import data
-from app.extensions import db
+from app.extensions import db, jwt
 
 
 def create_app():
@@ -13,8 +13,10 @@ def create_app():
         r'sqlite:///{}'.format(Path('app/test.db').absolute())
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = 'secret'
 
     db.init_app(app)
+    jwt.init_app(app)
     app.register_blueprint(auth)
     app.register_blueprint(data)
 
