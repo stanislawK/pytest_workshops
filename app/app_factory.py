@@ -4,7 +4,7 @@ from flask import Flask
 
 from app.blueprints.auth_bp import auth
 from app.blueprints.data_bp import data
-from app.extensions import db, jwt
+from app.extensions import blacklist, db, jwt
 
 
 def create_app():
@@ -14,6 +14,7 @@ def create_app():
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'secret'
+    app.config['JWT_BLACKLIST_ENABLED'] = True
 
     db.init_app(app)
     jwt.init_app(app)
@@ -21,3 +22,9 @@ def create_app():
     app.register_blueprint(data)
 
     return app
+
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token["jti"]
+    return jti in blacklist

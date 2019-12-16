@@ -61,3 +61,9 @@ def new_data():
 @pytest.fixture
 def registered_user(_db, client, new_user):
     client.post("/auth/register/", json=new_user)
+
+
+@pytest.fixture
+def token(client, registered_user, new_user):
+    rv = client.post("/auth/login/", json=new_user)
+    return rv.get_json()["access_token"]

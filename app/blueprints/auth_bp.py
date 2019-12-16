@@ -2,11 +2,12 @@ from http import HTTPStatus
 
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import (
-    create_access_token, get_jwt_identity, jwt_optional
+    create_access_token, get_raw_jwt, get_jwt_identity,
+    jwt_optional, jwt_required
 )
 from marshmallow import ValidationError
 
-from app.extensions import db
+from app.extensions import blacklist, db
 from app.models import UserModel
 from app.serializers import UserSchema
 
@@ -63,3 +64,11 @@ def login():
     return jsonify(
         {"message": "Invalid email or password"}
     ), HTTPStatus.UNAUTHORIZED
+
+
+@auth.route("/logout/", methods=["delete"])
+@jwt_required
+def logout():
+    jti = get_raw_jwt()["jti"]
+    blacklist.add(jti)
+    return jsonify({"message": "Successfully logged out"}), HTTPStatus.OK
