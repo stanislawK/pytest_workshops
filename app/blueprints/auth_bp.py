@@ -8,7 +8,6 @@ from flask_jwt_extended import (
 from marshmallow import ValidationError
 
 from app.extensions import db
-from app.models import UserModel
 
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
