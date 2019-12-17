@@ -64,11 +64,3 @@ def login():
     return jsonify(
         {"message": "Invalid email or password"}
     ), HTTPStatus.UNAUTHORIZED
-
-
-@auth.route("/logout/", methods=["delete"])
-@jwt_required
-def logout():
-    jti = get_raw_jwt()["jti"]
-    blacklist.add(jti)
-    return jsonify({"message": "Successfully logged out"}), HTTPStatus.OK
