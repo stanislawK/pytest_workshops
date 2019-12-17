@@ -5,7 +5,7 @@ from flask import Flask
 from app.blueprints.auth_bp import auth
 from app.blueprints.data_bp import data
 from app.blueprints.frontend_view import front
-from app.extensions import blacklist, db, jwt
+from app.extensions import db, jwt
 
 
 def create_app():
@@ -24,9 +24,3 @@ def create_app():
     app.register_blueprint(front)
 
     return app
-
-
-@jwt.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token):
-    jti = decrypted_token["jti"]
-    return jti in blacklist

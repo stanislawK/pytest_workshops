@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 )
 from marshmallow import ValidationError
 
-from app.extensions import blacklist, db
+from app.extensions import db
 from app.models import UserModel
 from app.serializers import UserSchema
 
@@ -37,30 +37,3 @@ def register():
 
     # Return newly created user data, and proper statu code
     return jsonify(UserSchema().dump(new_user)), HTTPStatus.CREATED
-
-
-@auth.route("/login/", methods=["post"])
-@jwt_optional
-def login():
-    # Check if user is logged in already
-    current_user = get_jwt_identity()
-    if current_user:
-        return jsonify(
-            {"message": "User logged in already"}
-        ), HTTPStatus.UNAUTHORIZED
-
-    # Try to get payload from user and serialize it with marshmallow
-    try:
-        user_data = UserSchema().load(request.get_json())
-    except ValidationError as err:
-        return err.messages, HTTPStatus.BAD_REQUEST
-
-    # Look for user with given email in db and check password
-    user_db = UserModel.query.filter_by(email=user_data["email"]).first()
-    if user_db and user_db.check_password(user_data["password"]):
-        token = create_access_token(identity=user_db.id)
-        return jsonify({"access_token": token}), HTTPStatus.OK
-
-    return jsonify(
-        {"message": "Invalid email or password"}
-    ), HTTPStatus.UNAUTHORIZED
