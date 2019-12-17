@@ -34,3 +34,24 @@ def test_save_data_to_db(_db, new_data, user_db):
 
     data_db = _db.session.query(DataModel).first()
     assert data_db == data
+
+
+"""
+from app.app_factory import create_app
+from app.extensions import db
+
+class TestCase(unittest.TestCase):
+    def setUp(self):
+        app = create_app()
+        app.config['TESTING'] = True
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        app.config['SQLALCHEMY_DATABASE_URI'] = (
+            'sqlite:///' + os.path.join(basedir, 'test.db')
+        )
+        self.app = app.test_client()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+"""

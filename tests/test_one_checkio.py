@@ -1,4 +1,5 @@
 import pytest
+import unittest
 
 from app.checkio import friendly_number
 
@@ -17,3 +18,10 @@ def test_friendly_number():
 def test_friendly_number_parametrized(raw, friendly):
     """Tests will run for all parameters - separete for each one."""
     assert friendly_number(raw) == friendly
+
+
+class TestFriendlyNumber(unittest.TestCase):
+
+    def test_numbers(self):
+        self.assertEqual(friendly_number(102), '102')
+        self.assertEqual(friendly_number(10240), '10k')

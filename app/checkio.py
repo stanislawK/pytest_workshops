@@ -1,5 +1,6 @@
 from math import ceil, floor
 
+
 """
 You should write a function for converting a number to string using several
 rules. First of all, you will need to cut the number with a given base
