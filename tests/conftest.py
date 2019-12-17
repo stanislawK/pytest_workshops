@@ -5,7 +5,6 @@ import pytest
 
 from app.app_factory import create_app
 from app.extensions import db
-from app.factories import DataFactory
 
 
 @pytest.fixture
@@ -68,8 +67,3 @@ def registered_user(_db, client, new_user):
 def token(client, registered_user, new_user):
     rv = client.post("/auth/login/", json=new_user)
     return rv.get_json()["access_token"]
-
-
-@pytest.fixture
-def add_data(app, _db, registered_user):
-    DataFactory.create_batch(50)
