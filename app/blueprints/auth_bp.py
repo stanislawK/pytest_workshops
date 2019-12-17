@@ -9,6 +9,6 @@ from marshmallow import ValidationError
 
 from app.extensions import db
 from app.models import UserModel
-from app.serializers import UserSchema
+
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
